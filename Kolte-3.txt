@@ -1,0 +1,236 @@
+SQL> select  last_name, job_title from employees natural join jobs where department_id  = 40 and commission_pct is not null;
+
+no rows selected
+
+SQL> select department_name,first_name,salary from departments d join employees e on(d.manager_id=e.manager_id) where commission_pct is not null;
+
+DEPARTMENT_NAME                FIRST_NAME               SALARY                  
+------------------------------ -------------------- ----------                  
+Executive                      John                      14000                  
+Executive                      Karen                     13500                  
+Executive                      Alberto                   12000                  
+Executive                      Gerald                    11000                  
+Executive                      Eleni                     10500                  
+Sales                          Peter                     10000                  
+Sales                          David                      9500                  
+Sales                          Peter                      9000                  
+Sales                          Christopher                8000                  
+Sales                          Nanette                    7500                  
+Sales                          Oliver                     7000                  
+
+11 rows selected.
+
+SQL> select first_name, country_name from employees join departments using(department_id) join locations using( location_id) join countries using ( country_id);
+
+FIRST_NAME           COUNTRY_NAME                                               
+-------------------- ----------------------------------------                   
+Ellen                United Kingdom                                             
+Sundar               United Kingdom                                             
+Mozhe                United States of America                                   
+David                United States of America                                   
+Hermann              Germany                                                    
+Shelli               United States of America                                   
+Amit                 United Kingdom                                             
+Elizabeth            United Kingdom                                             
+Sarah                United States of America                                   
+David                United Kingdom                                             
+Laura                United States of America                                   
+
+FIRST_NAME           COUNTRY_NAME                                               
+-------------------- ----------------------------------------                   
+Harrison             United Kingdom                                             
+Alexis               United States of America                                   
+Anthony              United States of America                                   
+Gerald               United Kingdom                                             
+Nanette              United Kingdom                                             
+John                 United States of America                                   
+Kelly                United States of America                                   
+Karen                United States of America                                   
+Curtis               United States of America                                   
+Lex                  United States of America                                   
+Julia                United States of America                                   
+
+FIRST_NAME           COUNTRY_NAME                                               
+-------------------- ----------------------------------------                   
+Jennifer             United States of America                                   
+Louise               United Kingdom                                             
+Bruce                United States of America                                   
+Alberto              United Kingdom                                             
+Britney              United States of America                                   
+Daniel               United States of America                                   
+Pat                  Canada                                                     
+Kevin                United States of America                                   
+Jean                 United States of America                                   
+Tayler               United Kingdom                                             
+Adam                 United States of America                                   
+
+FIRST_NAME           COUNTRY_NAME                                               
+-------------------- ----------------------------------------                   
+Timothy              United States of America                                   
+Ki                   United States of America                                   
+Girard               United States of America                                   
+William              United States of America                                   
+Douglas              United States of America                                   
+Nancy                United States of America                                   
+Danielle             United Kingdom                                             
+Peter                United Kingdom                                             
+Michael              Canada                                                     
+Shelley              United States of America                                   
+Guy                  United States of America                                   
+
+FIRST_NAME           COUNTRY_NAME                                               
+-------------------- ----------------------------------------                   
+Alexander            United States of America                                   
+Alyssa               United Kingdom                                             
+Charles              United Kingdom                                             
+Vance                United States of America                                   
+Payam                United States of America                                   
+Alexander            United States of America                                   
+Janette              United Kingdom                                             
+Steven               United States of America                                   
+Neena                United States of America                                   
+Sundita              United Kingdom                                             
+Renske               United States of America                                   
+
+FIRST_NAME           COUNTRY_NAME                                               
+-------------------- ----------------------------------------                   
+James                United States of America                                   
+David                United Kingdom                                             
+Jack                 United Kingdom                                             
+Diana                United States of America                                   
+Jason                United States of America                                   
+Steven               United States of America                                   
+James                United States of America                                   
+Mattea               United Kingdom                                             
+Randall              United States of America                                   
+Susan                United Kingdom                                             
+Samuel               United States of America                                   
+
+FIRST_NAME           COUNTRY_NAME                                               
+-------------------- ----------------------------------------                   
+Allan                United Kingdom                                             
+Irene                United States of America                                   
+Kevin                United States of America                                   
+Julia                United States of America                                   
+Donald               United States of America                                   
+Christopher          United Kingdom                                             
+TJ                   United States of America                                   
+Lisa                 United Kingdom                                             
+Karen                United Kingdom                                             
+Valli                United States of America                                   
+Joshua               United States of America                                   
+
+FIRST_NAME           COUNTRY_NAME                                               
+-------------------- ----------------------------------------                   
+Randall              United States of America                                   
+Hazel                United States of America                                   
+Luis                 United States of America                                   
+Trenna               United States of America                                   
+Den                  United States of America                                   
+Michael              United States of America                                   
+John                 United Kingdom                                             
+Nandita              United States of America                                   
+Ismael               United States of America                                   
+John                 United States of America                                   
+Sarath               United Kingdom                                             
+
+FIRST_NAME           COUNTRY_NAME                                               
+-------------------- ----------------------------------------                   
+Lindsey              United Kingdom                                             
+William              United Kingdom                                             
+Stephen              United States of America                                   
+Martha               United States of America                                   
+Patrick              United Kingdom                                             
+Jonathon             United Kingdom                                             
+Winston              United States of America                                   
+Sigal                United States of America                                   
+Peter                United Kingdom                                             
+Oliver               United Kingdom                                             
+Jose Manuel          United States of America                                   
+
+FIRST_NAME           COUNTRY_NAME                                               
+-------------------- ----------------------------------------                   
+Peter                United States of America                                   
+Clara                United Kingdom                                             
+Shanta               United States of America                                   
+Alana                United States of America                                   
+Matthew              United States of America                                   
+Jennifer             United States of America                                   
+Eleni                United Kingdom                                             
+
+106 rows selected.
+
+SQL> select department_name, avg(salary), count(commission_pct) from departments join employees using (department_id)  group by  department_name;
+
+DEPARTMENT_NAME                AVG(SALARY) COUNT(COMMISSION_PCT)                
+------------------------------ ----------- ---------------------                
+Administration                        4400                     0                
+Accounting                           10154                     0                
+Purchasing                            4150                     0                
+Human Resources                       6500                     0                
+IT                                    5760                     0                
+Public Relations                     10000                     0                
+Executive                       19333.3333                     0                
+Shipping                        3475.55556                     0                
+Sales                           8955.88235                    34                
+Finance                         8601.33333                     0                
+Marketing                             9500                     0                
+
+11 rows selected.
+
+SQL> select  *  from departments where department_id in  (select department_id from employees  group by department_id  having max(salary)>8000);
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID             
+------------- ------------------------------ ---------- -----------             
+          100 Finance                               108        1700             
+           30 Purchasing                            114        1700             
+           90 Executive                             100        1700             
+           20 Marketing                             201        1800             
+           70 Public Relations                      204        2700             
+          110 Accounting                            205        1700             
+           50 Shipping                              121        1500             
+           80 Sales                                 145        2500             
+           60 IT                                    103        1400             
+
+9 rows selected.
+
+SQL> select first_name from employees where employee_id in (select manager_id from employees  group by manager_id  having count(*)>4);
+
+FIRST_NAME                                                                      
+--------------------                                                            
+Steven                                                                          
+Den                                                                             
+Shanta                                                                          
+Karen                                                                           
+John                                                                            
+Eleni                                                                           
+Nancy                                                                           
+Adam                                                                            
+Alberto                                                                         
+Neena                                                                           
+Kevin                                                                           
+
+FIRST_NAME                                                                      
+--------------------                                                            
+Matthew                                                                         
+Payam                                                                           
+Gerald                                                                          
+
+14 rows selected.
+
+SQL> select first_name, job_title, start_date, end_date from job_history jh join jobs j using (job_id) join employees e  on ( jh.employee_id = e.employee_id) where commission_pct is null;
+
+FIRST_NAME           JOB_TITLE                           START_DAT END_DATE     
+-------------------- ----------------------------------- --------- ---------    
+Neena                Accounting Manager                  28-OCT-01 15-MAR-05    
+Neena                Public Accountant                   21-SEP-97 27-OCT-01    
+Lex                  Programmer                          13-JAN-01 24-JUL-06    
+Den                  Stock Clerk                         24-MAR-06 31-DEC-07    
+Payam                Stock Clerk                         01-JAN-07 31-DEC-07    
+Jennifer             Administration Assistant            17-SEP-95 17-JUN-01    
+Jennifer             Public Accountant                   01-JUL-02 31-DEC-06    
+Michael              Marketing Representative            17-FEB-04 19-DEC-07    
+
+8 rows selected.
+
+SQL> spool off;

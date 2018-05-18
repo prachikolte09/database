@@ -1,0 +1,27 @@
+
+
+DECLARE
+    stud_name Students.S_name%type;
+    stud_gpa Students.S_GPA%type;
+    stud_ID Students.S_ID%type;
+    stud_phone Students.S_phone%type;
+    stud_result varchar(10);
+   CURSOR c_stud is
+       select S_name,S_GPA,S_ID,S_PHONE from students;
+
+BEGIN
+   OPEN c_stud;
+   dbms_output.put_line('Title: List of students Information');
+   LOOP
+      FETCH c_stud into stud_name,stud_gpa,stud_ID,stud_phone;
+      EXIT WHEN c_stud%notfound;
+      
+      if stud_gpa>=3 then
+        stud_result:='Pass';
+      else
+         stud_result:='Fail';
+      end if;   
+      dbms_output.put_line('Student ID: '||stud_ID||' ,'||'Name: '||stud_name||' ,' || 'Phone: '||stud_phone||', '||'GPA:'|| stud_gpa||', '||'Result:'||stud_result );
+   END LOOP;
+   CLOSE c_stud;
+END;
